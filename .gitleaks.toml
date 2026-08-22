@@ -1,0 +1,12 @@
+title = "DevSecOps demo rules"
+
+[[rules]]
+id = "devsecops-demo-api-key"
+description = "Detects the demo API key"
+regex = '''API_KEY\s*=\s*"ghp_[a-z0-9]+"'''
+keywords = ["API_KEY"]
+
+[allowlist]
+paths = [
+    '''^\.git/'''
+]
