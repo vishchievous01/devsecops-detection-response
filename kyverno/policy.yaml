@@ -8,11 +8,18 @@ spec:
 
   rules:
     - name: require-non-root
+
       match:
         any:
           - resources:
               kinds:
                 - Pod
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - falco
 
       validate:
         message: "Containers must run as non-root users."
@@ -33,11 +40,18 @@ spec:
 
   rules:
     - name: disallow-privileged
+
       match:
         any:
           - resources:
               kinds:
                 - Pod
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - falco
 
       validate:
         message: "Privileged containers are not allowed."
@@ -58,11 +72,18 @@ spec:
 
   rules:
     - name: disallow-privilege-escalation
+
       match:
         any:
           - resources:
               kinds:
                 - Pod
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - falco
 
       validate:
         message: "Privilege escalation is not allowed."
