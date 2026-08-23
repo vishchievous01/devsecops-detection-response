@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsecops-demo
+  namespace: default
+  labels:
+    app: devsecops-demo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: devsecops-demo
+
+  template:
+    metadata:
+      labels:
+        app: devsecops-demo
+
+    spec:
+      containers:
+        - name: devsecops-demo
+          image: devsecops-demo:0.5.0
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8080
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20
+
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
