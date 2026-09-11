@@ -1,0 +1,7 @@
+falcosidekick:
+  enabled: true
+  config:
+    webhook:
+      address: "http://172.19.165.192:8080/falco"
+      method: "POST"
+      minimumpriority: "warning"
