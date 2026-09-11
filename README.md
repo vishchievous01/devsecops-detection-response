@@ -80,6 +80,7 @@ devsecops-detection-response/
 ├── k8s/                  # Kubernetes manifests and hardening configuration
 ├── kyverno/              # Kyverno security policies
 ├── terraform/            # Infrastructure as Code and security controls
+├── falco-wazuh-bridge/   # Falco → Wazuh event forwarding bridge
 ├── .gitignore
 ├── .gitkraken.toml
 └── falco-values.yaml     # Falco deployment/configuration values
@@ -185,6 +186,36 @@ Examples of runtime events that can be monitored include:
 This complements static and preventive controls with **runtime
 detection**.
 
+#### 6. Falco → Wazuh Event Integration
+
+The `falco-wazuh-bridge/` component connects Falco runtime detections with Wazuh.
+
+The event flow is:
+
+```text
+Falco
+   |
+   v
+Falcosidekick
+   |
+   v
+Falco-Wazuh Bridge
+   |
+   v
+JSON Event Log
+   |
+   v
+Wazuh Logcollector
+   |
+   v
+Wazuh Detection Pipeline
+```
+
+The bridge receives Falco events over HTTP, serializes them as JSON lines, and writes them to a log file consumed by Wazuh.
+
+This demonstrates integration between runtime container detection and centralized security monitoring.
+
+
 ## DevSecOps Security Pipeline
 
 The overall security model follows multiple layers:
@@ -258,7 +289,7 @@ This project is intended to demonstrate practical understanding of:
 ### 1. Clone the Repository
 
 ``` bash
-git clone https://github.com/vischievous01/devsecops-detection-response.git
+git clone https://github.com/vishchievous01/devsecops-detection-response.git
 cd devsecops-detection-response
 ```
 
